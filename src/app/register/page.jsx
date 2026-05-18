@@ -1,4 +1,5 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import { Check } from "@gravity-ui/icons";
 import {
   Button,
@@ -10,13 +11,29 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
+import { redirect } from "next/navigation";
+//Minu1126@#
 
 const LoginPage = () => {
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const userData = Object.fromEntries(formData.entries());
-    console.log(userData);
+    const { data, error } = await authClient.signUp.email({
+      name: userData.name, // required
+      email: userData.email, // required
+      password: userData.password, // required
+      image: userData.image,
+      // callbackURL: "https://example.com/callback",
+    });
+    console.log(data, error);
+    if (data) {
+      alert("registation successfully");
+      redirect("/");
+    }
+    if (error) {
+      alert("error.message");
+    }
   };
   return (
     <div className="max-w-7xl mx-auto my-20">
@@ -84,10 +101,7 @@ const LoginPage = () => {
           <div className="flex gap-2">
             <Button type="submit">
               <Check />
-              Submit
-            </Button>
-            <Button type="reset" variant="secondary">
-              Reset
+              Register
             </Button>
           </div>
         </Form>

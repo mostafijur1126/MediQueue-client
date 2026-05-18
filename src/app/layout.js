@@ -24,6 +24,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       data-theme="light"
+      suppressHydrationWarning
       className={`light ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
