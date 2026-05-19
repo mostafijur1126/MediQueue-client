@@ -11,6 +11,8 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
+import Link from "next/link";
+import { FcGoogle } from "react-icons/fc";
 
 const LoginPage = () => {
   const onSubmit = async (e) => {
@@ -29,6 +31,11 @@ const LoginPage = () => {
       alert(error.message);
     }
     // console.log(data, error);
+  };
+  const handelGoogleSingIn = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+    });
   };
   return (
     <div className="max-w-7xl mx-auto my-20">
@@ -74,13 +81,24 @@ const LoginPage = () => {
             </Description>
             <FieldError />
           </TextField>
-          <div className="flex gap-2">
-            <Button type="submit">
+          <div className="">
+            <Button type="submit" className="w-full">
               <Check />
               Login
             </Button>
           </div>
         </Form>
+        <p className="text-center">or</p>
+        <Button
+          onClick={handelGoogleSingIn}
+          className="w-full"
+          variant="outline"
+        >
+          <FcGoogle />
+        </Button>
+        <Link href="register" className="cursor-pointer text-blue-500">
+          want to create an accout?
+        </Link>
       </Card>
     </div>
   );

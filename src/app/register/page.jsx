@@ -11,7 +11,9 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
 //Minu1126@#
 
 const LoginPage = () => {
@@ -35,9 +37,15 @@ const LoginPage = () => {
       alert("error.message");
     }
   };
+  const handelGoogleSingIn = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+    });
+  };
   return (
     <div className="max-w-7xl mx-auto my-20">
       <Card>
+        <h1 className="text-2xl">Registation</h1>
         <Form className="flex w-96 flex-col gap-4" onSubmit={onSubmit}>
           <TextField
             isRequired
@@ -98,13 +106,24 @@ const LoginPage = () => {
             </Description>
             <FieldError />
           </TextField>
-          <div className="flex gap-2">
-            <Button type="submit">
+          <div className="w-full">
+            <Button type="submit" className="w-full">
               <Check />
               Register
             </Button>
           </div>
         </Form>
+        <p className="text-center">or</p>
+        <Button
+          onClick={handelGoogleSingIn}
+          className="w-full"
+          variant="outline"
+        >
+          <FcGoogle />
+        </Button>
+        <Link href="login" className="cursor-pointer text-blue-500">
+          have your accout?
+        </Link>
       </Card>
     </div>
   );
