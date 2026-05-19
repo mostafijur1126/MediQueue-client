@@ -1,5 +1,6 @@
 "use client";
 
+import { error } from "better-auth/api";
 import { useState } from "react";
 import {
   FiUser,
@@ -16,6 +17,7 @@ import {
   FiCheck,
   FiUpload,
 } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 const SUBJECTS = [
   "Mathematics",
@@ -162,13 +164,31 @@ export default function AddTutorsPage() {
   const [mode, setMode] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 3000);
     const formData = new FormData(e.currentTarget);
     const tutorData = Object.fromEntries(formData.entries());
-    console.log(tutorData);
+    // console.log(tutorData);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URI}/tutors`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(tutorData),
+    });
+    const data = await res.json();
+    if (data) {
+      toast.success("tutor add successfully.", {
+        position: "top-left",
+        autoClose: 5000,
+      });
+    }
+    if (error) {
+      toast.error(error.message);
+    }
+    // console.log(data);
   };
 
   return (
@@ -228,7 +248,7 @@ export default function AddTutorsPage() {
                   <InputField
                     label="Profile Image URL"
                     icon={FiImage}
-                    name="imageUrl"
+                    name="photo"
                     type="url"
                     placeholder="https://example.com/photo.jpg"
                     required
@@ -284,8 +304,8 @@ export default function AddTutorsPage() {
                   <InputField
                     label="Available Days & Time"
                     icon={FiCalendar}
-                    name="availableDate"
-                    placeholder="e.g. Mon–Fri, 4 PM – 7 PM"
+                    name="availableTime"
+                    placeholder="Example: Sun - Thu 5:00 PM - 8:00 PM"
                     required
                   />
                 </div>
@@ -331,7 +351,7 @@ export default function AddTutorsPage() {
                 <InputField
                   label="Total Slots"
                   icon={FiUsers}
-                  name="slot"
+                  name="totalSlots"
                   type="number"
                   placeholder="e.g. 20"
                   required

@@ -26,7 +26,7 @@ import { IoSunnyOutline } from "react-icons/io5";
 const Navbar = () => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
-  console.log(user);
+  // console.log(user);
   const { theme, setTheme } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
