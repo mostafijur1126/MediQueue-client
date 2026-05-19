@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { error } from "better-auth/api";
 import { useState } from "react";
 import {
@@ -39,6 +40,7 @@ function SelectField({
   onChange,
   required,
   placeholder,
+  name,
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -46,6 +48,7 @@ function SelectField({
       <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
         {label} {required && <span className="text-rose-500">*</span>}
       </label>
+      <input type="hidden" name={name} value={value} required={required} />
       <div className="relative">
         <div
           onClick={() => setOpen(!open)}
@@ -164,19 +167,35 @@ export default function AddTutorsPage() {
   const [mode, setMode] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!user) {
+      toast.error("Please login first.");
+      return;
+    }
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 3000);
     const formData = new FormData(e.currentTarget);
     const tutorData = Object.fromEntries(formData.entries());
-    // console.log(tutorData);
+    const newTutorData = {
+      ...tutorData,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        iamge: user.image,
+      },
+    };
+    console.log(newTutorData);
     const res = await fetch(`${process.env.NEXT_PUBLIC_URI}/tutors`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(tutorData),
+      body: JSON.stringify(newTutorData),
     });
     const data = await res.json();
     if (data) {
@@ -283,6 +302,7 @@ export default function AddTutorsPage() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <SelectField
+                  name="subject"
                   label="Subject / Category"
                   icon={FiBook}
                   options={SUBJECTS}
@@ -292,6 +312,7 @@ export default function AddTutorsPage() {
                   placeholder="Select a subject"
                 />
                 <SelectField
+                  name="teachingMode"
                   label="Teaching Mode"
                   icon={FiMonitor}
                   options={MODES}
