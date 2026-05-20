@@ -182,6 +182,9 @@ export default function AddTutorsPage() {
     const tutorData = Object.fromEntries(formData.entries());
     const newTutorData = {
       ...tutorData,
+      hourlyFee: Number(tutorData.hourlyFee),
+      totalSlots: Number(tutorData.totalSlots),
+
       user: {
         id: user.id,
         name: user.name,

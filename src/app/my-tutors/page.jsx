@@ -1,3 +1,4 @@
+import EditTutorModal from "@/components/EditTutorModal";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import React from "react";
@@ -83,11 +84,9 @@ const MyTutorsPage = async () => {
                   </td>
                   <td className="px-5 py-4 whitespace-nowrap">
                     <div className="flex items-center gap-2">
-                      <button className="text-xs px-3 py-1.5 rounded-md font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50 transition-colors">
-                        Edit
-                      </button>
+                      <EditTutorModal tutor={tutor}></EditTutorModal>
                       <button className="text-xs px-3 py-1.5 rounded-md font-medium bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50 transition-colors">
-                        Remove
+                        Delete
                       </button>
                     </div>
                   </td>
@@ -155,7 +154,7 @@ const MyTutorsPage = async () => {
                   Edit
                 </button>
                 <button className="flex-1 text-sm py-2 rounded-lg font-medium bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50 transition-colors">
-                  Remove
+                  Delete
                 </button>
               </div>
             </div>

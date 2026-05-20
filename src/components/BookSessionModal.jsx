@@ -17,7 +17,7 @@ const BookSessionModal = ({ tutor }) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const bookingData = Object.fromEntries(formData.entries());
-    console.log(bookingData);
+    // console.log(bookingData);
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_URI}/bookings`, {
       method: "POST",
@@ -39,7 +39,9 @@ const BookSessionModal = ({ tutor }) => {
   //   console.log(user);
   return (
     <Modal>
-      <Button>Book Session</Button>
+      <Button isDisabled={Number(tutor.totalSlots) <= 0}>
+        {Number(tutor.totalSlots) <= 0 ? "No Slots Available" : "Book Session"}
+      </Button>
       <Modal.Backdrop>
         <Modal.Container placement="auto">
           <Modal.Dialog className="sm:max-w-md">
@@ -83,14 +85,8 @@ const BookSessionModal = ({ tutor }) => {
                     <Button slot="close" variant="secondary">
                       Cancel
                     </Button>
-                    <Button
-                      type="submit"
-                      slot="close"
-                      isDisabled={Number(tutor.totalSlots) <= 0}
-                    >
-                      {Number(tutor.totalSlots) <= 0
-                        ? "No Slots Available"
-                        : "Book Session"}
+                    <Button type="submit" slot="close">
+                      Book Session
                     </Button>
                   </div>
                 </form>

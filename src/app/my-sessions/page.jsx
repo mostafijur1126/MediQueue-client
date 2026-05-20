@@ -1,9 +1,10 @@
+import RemoveButton from "@/components/RemoveButton";
 import React from "react";
 
 const MySessionsPage = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_URI}/booking`);
   const sessions = await res.json();
-  console.log(sessions);
+  // console.log(sessions);
   return (
     <div>
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
@@ -65,11 +66,10 @@ const MySessionsPage = async () => {
                     </td>
 
                     <td className="px-5 py-4 whitespace-nowrap">
-                      <div className="flex items-center gap-2">
-                        <button className="text-xs px-3 py-1.5 rounded-md font-medium bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50 transition-colors">
-                          Remove
-                        </button>
-                      </div>
+                      <RemoveButton
+                        bookingId={session._id}
+                        status={session.status}
+                      ></RemoveButton>
                     </td>
                   </tr>
                 ))}
