@@ -192,7 +192,7 @@ export default function AddTutorsPage() {
         iamge: user.image,
       },
     };
-    console.log(newTutorData);
+    // console.log(newTutorData);
     const res = await fetch(`${process.env.NEXT_PUBLIC_URI}/tutors`, {
       method: "POST",
       headers: {

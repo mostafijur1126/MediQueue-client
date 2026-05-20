@@ -1,6 +1,8 @@
 "use client";
 
 import { Button, Modal } from "@heroui/react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const fields = [
   { label: "Tutor Name", name: "tutorName", type: "text" },
@@ -16,9 +18,10 @@ const fields = [
   { label: "Total Slots", name: "totalSlots", type: "number" },
 ];
 
-const EditTutorModal = ({ tutor = {}, onSubmit }) => {
-  console.log(tutor);
-  const handleSubmit = (e) => {
+const EditTutorModal = ({ tutor }) => {
+  const router = useRouter();
+  // console.log(tutor);
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
@@ -28,7 +31,23 @@ const EditTutorModal = ({ tutor = {}, onSubmit }) => {
     data.hourlyFee = Number(data.hourlyFee);
     data.totalSlots = Number(data.totalSlots);
 
-    if (onSubmit) onSubmit(data);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_URI}/updateTutor/${tutor._id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      },
+    );
+    const updateData = await res.json();
+    if (updateData.modifiedCount > 0) {
+      toast.success("Updated successfully.");
+      router.refresh();
+    } else {
+      toast.error("Update failed.");
+    }
   };
 
   return (

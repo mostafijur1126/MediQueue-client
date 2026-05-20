@@ -65,12 +65,12 @@ const MyTutorsPage = async () => {
                     {tutor.availableTime}
                   </td>
                   <td className="px-5 py-4 text-gray-700 dark:text-gray-300 whitespace-nowrap">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300">
-                      TK {tutor.hourlyFee}/hr
-                    </span>
+                    TK {tutor.hourlyFee}/hr
                   </td>
                   <td className="px-5 py-4 text-gray-700 dark:text-gray-300 whitespace-nowrap">
-                    {tutor.totalSlots}
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300">
+                      {tutor.totalSlots}
+                    </span>
                   </td>
                   <td className="px-5 py-4 text-gray-700 dark:text-gray-300 whitespace-nowrap">
                     {new Date(tutor.registrationDate).toLocaleDateString(
