@@ -1,3 +1,4 @@
+import BookSessionModal from "@/components/BookSessionModal";
 import { Button, Card } from "@heroui/react";
 import Image from "next/image";
 import React from "react";
@@ -32,7 +33,7 @@ const TutorDetailsPage = async ({ params }) => {
               <p>Hourly Fee: {tutor.hourlyFee}</p>
               <p>Remaining Slot: {tutor.totalSlots}</p>
               <p>Session Start Date: {tutor.sessionStartDate}</p>
-              <Button>Book Session</Button>
+              <BookSessionModal tutor={tutor}></BookSessionModal>
             </div>
           </div>
         </Card>

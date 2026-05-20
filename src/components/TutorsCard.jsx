@@ -7,12 +7,12 @@ const TutorsCard = ({ tutor }) => {
   //   console.log(tutor);
   return (
     <Card className="rounded-2xl">
-      <div>
+      <div className="relative w-full h-80 overflow-hidden">
         <Image
           src={tutor.photo}
           alt={tutor.tutorName}
-          width={300}
-          height={300}
+          fill
+          className="object-cover"
         ></Image>
       </div>
       <div>
