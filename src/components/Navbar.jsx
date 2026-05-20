@@ -1,11 +1,10 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
-import { Avatar } from "@heroui/react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   FaBars,
   FaCalendarAlt,
@@ -23,16 +22,39 @@ import {
 } from "react-icons/fa";
 import { IoSunnyOutline } from "react-icons/io5";
 
+const Avatar = ({ name, image }) => {
+  const initials = name
+    ? name
+        .split(" ")
+        .slice(0, 2)
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+    : "?";
+  return image ? (
+    <Image
+      src={image}
+      alt={name}
+      width={20}
+      height={20}
+      className="w-9 h-9 rounded-full object-cover ring-2 ring-blue-500/30"
+    />
+  ) : (
+    <span className="flex items-center justify-center w-9 h-9 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200 text-sm font-semibold ring-2 ring-blue-500/30">
+      {initials}
+    </span>
+  );
+};
+
 const Navbar = () => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
-  // console.log(user);
   const { theme, setTheme } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
-
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const navLinksPublic = [
     { name: "Home", href: "/", icon: FaHome },
     { name: "Tutors", href: "/tutors", icon: FaChalkboardTeacher },
@@ -42,279 +64,235 @@ const Navbar = () => {
     { name: "Tutors", href: "/tutors", icon: FaChalkboardTeacher },
     { name: "Add Tutor", href: "/add-tutor", icon: FaUserPlus },
     { name: "My Tutors", href: "/my-tutors", icon: FaUsers },
-    { name: "My Booked Sessions", href: "/my-sessions", icon: FaCalendarAlt },
+    { name: "Sessions", href: "/my-sessions", icon: FaCalendarAlt },
   ];
+
+  const navLinks = user ? navLinksPrivate : navLinksPublic;
+
+  const isActive = (href) => pathname === href;
+
   const handleLogout = async () => {
     await authClient.signOut({
       fetchOptions: {
-        onSuccess: () => {
-          router.push("/"); // redirect to login page
-        },
+        onSuccess: () => router.push("/"),
       },
     });
   };
-  const isActive = (href) => pathname === href;
+
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
+    <nav className="sticky top-0 z-50 w-full bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-200/70 dark:border-gray-800/70 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex items-center justify-between h-16 gap-4">
           {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link
-              href="/"
-              className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors"
-            >
-              Mediqueue
-            </Link>
+          <Link
+            href="/"
+            className="flex-shrink-0 text-xl font-bold tracking-tight text-blue-600 dark:text-blue-400 hover:opacity-80 transition-opacity"
+          >
+            Mediqueue
+          </Link>
+
+          {/* Desktop Nav Links */}
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map(({ name, href, icon: Icon }) => (
+              <Link
+                key={name}
+                href={href}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150 ${
+                  isActive(href)
+                    ? "bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100"
+                }`}
+              >
+                <Icon className="text-base" />
+                {name}
+              </Link>
+            ))}
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-6">
-            {!user ? (
-              <>
-                {navLinksPublic.map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                      isActive(link.href)
-                        ? "bg-blue-50 text-blue-600"
-                        : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"
-                    }`}
-                  >
-                    <link.icon className="text-lg" />
-                    {link.name}
-                  </Link>
-                ))}
-              </>
-            ) : (
-              <>
-                {navLinksPrivate.map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                      isActive(link.href)
-                        ? "bg-blue-50 text-blue-600"
-                        : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"
-                    }`}
-                  >
-                    <link.icon className="text-lg" />
-                    {link.name}
-                  </Link>
-                ))}
-              </>
-            )}
-          </div>
-          <div className="text-black">
+          {/* Right Side */}
+          <div className="flex items-center gap-2">
+            {/* Theme Toggle */}
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              aria-label="Toggle theme"
+              className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
             >
-              {theme === "dark" ? <IoSunnyOutline /> : <FaMoon />}
+              {theme === "dark" ? (
+                <IoSunnyOutline className="text-lg" />
+              ) : (
+                <FaMoon className="text-base" />
+              )}
+            </button>
+
+            {/* Desktop Auth */}
+            <div className="hidden md:flex items-center gap-2">
+              {!user ? (
+                <>
+                  <Link
+                    href="/login"
+                    className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    <FaSignInAlt className="text-sm" />
+                    Login
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm"
+                  >
+                    <FaRegistered className="text-sm" />
+                    Register
+                  </Link>
+                </>
+              ) : (
+                <div className="relative">
+                  <button
+                    onClick={() => setIsProfileDropdownOpen((v) => !v)}
+                    className="flex items-center gap-2 p-1 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                  >
+                    <Avatar name={user?.name} image={user?.image} />
+                    <span className="hidden lg:block text-sm font-medium text-gray-700 dark:text-gray-300 pr-1">
+                      {user?.name?.split(" ")[0]}
+                    </span>
+                  </button>
+
+                  {isProfileDropdownOpen && (
+                    <>
+                      <div
+                        className="fixed inset-0 z-10"
+                        onClick={() => setIsProfileDropdownOpen(false)}
+                      />
+                      <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-1.5 z-20 overflow-hidden">
+                        <div className="px-4 py-2.5 border-b border-gray-100 dark:border-gray-800">
+                          <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
+                            {user?.name}
+                          </p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                            {user?.email}
+                          </p>
+                        </div>
+                        <Link
+                          href="/profile"
+                          onClick={() => setIsProfileDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                        >
+                          <FaUserCircle className="text-base text-gray-400" />
+                          My Profile
+                        </Link>
+                        <button
+                          onClick={() => {
+                            setIsProfileDropdownOpen(false);
+                            handleLogout();
+                          }}
+                          className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+                        >
+                          <FaSignOutAlt className="text-base" />
+                          Logout
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Hamburger */}
+            <button
+              onClick={() => setIsMobileMenuOpen((v) => !v)}
+              aria-label="Toggle menu"
+              className="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              {isMobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
             </button>
           </div>
+        </div>
+      </div>
 
-          {/* Desktop Auth Section */}
+      {/* Mobile Menu */}
+      <div
+        className={`md:hidden fixed inset-x-0 top-16 z-40 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 shadow-lg transition-all duration-300 ease-in-out overflow-hidden ${
+          isMobileMenuOpen
+            ? "max-h-[calc(100vh-4rem)] opacity-100"
+            : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="px-4 py-4 space-y-1 overflow-y-auto max-h-[calc(100vh-4rem)]">
+          {navLinks.map(({ name, href, icon: Icon }) => (
+            <Link
+              key={name}
+              href={href}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                isActive(href)
+                  ? "bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+              }`}
+            >
+              <Icon className="text-base" />
+              {name}
+            </Link>
+          ))}
 
-          <div className="hidden md:flex md:items-center md:space-x-4">
+          <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
             {!user ? (
-              <>
+              <div className="flex flex-col gap-2 pt-2">
                 <Link
                   href="/login"
-                  className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                 >
                   <FaSignInAlt />
                   Login
                 </Link>
                 <Link
                   href="/register"
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-colors"
                 >
-                  <FaRegistered />
+                  <FaRegRegistered />
                   Register
                 </Link>
-              </>
+              </div>
             ) : (
-              <div className="relative">
-                <button
-                  onClick={() =>
-                    setIsProfileDropdownOpen(!isProfileDropdownOpen)
-                  }
-                  className="flex items-center gap-2 focus:outline-none"
+              <div className="pt-2 space-y-1">
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-800/50">
+                  <Avatar name={user?.name} image={user?.image} />
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
+                      {user?.name}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                      {user?.email}
+                    </p>
+                  </div>
+                </div>
+                <Link
+                  href="/profile"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                 >
-                  {/* <Image
-                  src={user.image}
-                  alt={user.mane}
-                  width={20}
-                  height={20}
-                  className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 hover:border-blue-500 transition-colors"
-                /> */}
-
-                  <Avatar>
-                    <Avatar.Image alt={user?.name} src={user?.image} />
-                    <Avatar.Fallback>
-                      {user?.name?.split(" ")[0]}
-                    </Avatar.Fallback>
-                  </Avatar>
-
-                  <span className="text-sm font-medium text-gray-700 hidden lg:block">
-                    {user?.name?.split(" ")[0]}
-                  </span>
+                  <FaUserCircle className="text-base" />
+                  My Profile
+                </Link>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+                >
+                  <FaSignOutAlt className="text-base" />
+                  Logout
                 </button>
-
-                {/* Dropdown Menu */}
-                {isProfileDropdownOpen && (
-                  <>
-                    <div
-                      className="fixed inset-0 z-10"
-                      onClick={() => setIsProfileDropdownOpen(false)}
-                    />
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-20 border border-gray-100">
-                      <Link
-                        href="/profile"
-                        className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                        onClick={() => setIsProfileDropdownOpen(false)}
-                      >
-                        <FaUserCircle className="text-lg" />
-                        My Profile
-                      </Link>
-                      <hr className="my-1" />
-                      <div onClick={() => setIsProfileDropdownOpen(false)}>
-                        <button
-                          onClick={handleLogout}
-                          className="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors w-full text-left"
-                        >
-                          <FaSignOutAlt className="text-lg" />
-                          Logout
-                        </button>
-                      </div>
-                    </div>
-                  </>
-                )}
               </div>
             )}
           </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-700 hover:text-blue-600 focus:outline-none p-2"
-            >
-              {isMobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-            </button>
-          </div>
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
-      <div
-        className={`md:hidden fixed inset-x-0 top-16 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-40 ${
-          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div className="px-4 py-4 space-y-3 overflow-y-auto max-h-[calc(100vh-4rem)]">
-          {/* Navigation Links */}
-          {!user ? (
-            <>
-              {navLinksPublic.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                    isActive(link.href)
-                      ? "bg-blue-50 text-blue-600 font-medium"
-                      : "text-gray-700 hover:bg-gray-50"
-                  }`}
-                >
-                  <link.icon className="text-xl" />
-                  {link.name}
-                </Link>
-              ))}
-            </>
-          ) : (
-            <>
-              {navLinksPrivate.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                    isActive(link.href)
-                      ? "bg-blue-50 text-blue-600 font-medium"
-                      : "text-gray-700 hover:bg-gray-50"
-                  }`}
-                >
-                  <link.icon className="text-xl" />
-                  {link.name}
-                </Link>
-              ))}
-            </>
-          )}
-
-          <hr className="my-2" />
-
-          {/* Mobile Auth Section */}
-          {!user ? (
-            <>
-              <Link
-                href="/login"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
-              >
-                <FaSignInAlt className="text-xl" />
-                Login
-              </Link>
-              <Link
-                href="/register"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                <FaRegRegistered className="text-xl" />
-                Register
-              </Link>
-            </>
-          ) : (
-            <>
-              <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-                <Avatar>
-                  <Avatar.Image alt={user?.name} src={user?.image} />
-                  <Avatar.Fallback>{user?.name?.split(" ")[0]}</Avatar.Fallback>
-                </Avatar>
-
-                <div>
-                  <p className="font-medium text-gray-900">{user?.name}</p>
-                  <p className="text-sm text-gray-500">{user?.email}</p>
-                </div>
-              </div>
-              <Link
-                href="/profile"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
-              >
-                <FaUserCircle className="text-xl" />
-                My Profile
-              </Link>
-              <button
-                onClick={() => {
-                  handleLogout();
-                  setIsMobileMenuOpen(false);
-                }}
-                className="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors w-full"
-              >
-                <FaSignOutAlt className="text-xl" />
-                Logout
-              </button>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* Overlay for mobile menu */}
+      {/* Mobile Overlay */}
       {isMobileMenuOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+          className="md:hidden fixed inset-0 bg-black/40 z-30"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}

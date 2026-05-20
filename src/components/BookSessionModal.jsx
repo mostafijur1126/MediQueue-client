@@ -5,15 +5,26 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 const BookSessionModal = ({ tutor }) => {
-  // console.log(Number(tutor.totalSlots));
   const { data: session } = authClient.useSession();
   const user = session?.user;
   const router = useRouter();
+  const sessionDate = new Date(tutor.sessionStartDate);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  sessionDate.setHours(0, 0, 0, 0);
+  const isBookingNotAvailable = today > sessionDate;
+
   const onSubmit = async (e) => {
     if (!user) {
       toast.error("Please login first.");
       return;
     }
+
+    if (isBookingNotAvailable) {
+      toast.error("Booking is not available yet for this tutor.");
+      return;
+    }
+
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const bookingData = Object.fromEntries(formData.entries());
@@ -39,8 +50,14 @@ const BookSessionModal = ({ tutor }) => {
   //   console.log(user);
   return (
     <Modal>
-      <Button isDisabled={Number(tutor.totalSlots) <= 0}>
-        {Number(tutor.totalSlots) <= 0 ? "No Slots Available" : "Book Session"}
+      <Button
+        isDisabled={Number(tutor.totalSlots) <= 0 || isBookingNotAvailable}
+      >
+        {Number(tutor.totalSlots) <= 0
+          ? "No Slots Available"
+          : isBookingNotAvailable
+            ? "Booking Not Available Yet"
+            : "Book Session"}
       </Button>
       <Modal.Backdrop>
         <Modal.Container placement="auto">
