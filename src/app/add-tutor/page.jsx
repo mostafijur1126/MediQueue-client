@@ -192,11 +192,12 @@ export default function AddTutorsPage() {
         iamge: user.image,
       },
     };
-    // console.log(newTutorData);
+    const { data: tokenData } = await authClient.token();
     const res = await fetch(`${process.env.NEXT_PUBLIC_URI}/tutors`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${tokenData?.token}`,
       },
       body: JSON.stringify(newTutorData),
     });

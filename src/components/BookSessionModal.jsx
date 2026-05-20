@@ -28,17 +28,17 @@ const BookSessionModal = ({ tutor }) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const bookingData = Object.fromEntries(formData.entries());
-    // console.log(bookingData);
+    const { data: tokenData } = await authClient.token();
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_URI}/bookings`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${tokenData?.token}`,
       },
       body: JSON.stringify(bookingData),
     });
     const data = await res.json();
-    // console.log(data);
     if (data.success === true) {
       toast.success(data.message);
       router.refresh();
@@ -46,8 +46,6 @@ const BookSessionModal = ({ tutor }) => {
       toast.error(data.message);
     }
   };
-  //   console.log(tutor);
-  //   console.log(user);
   return (
     <Modal>
       <Button

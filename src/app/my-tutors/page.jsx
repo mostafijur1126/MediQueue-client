@@ -8,8 +8,15 @@ const MyTutorsPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
   const user = session.user;
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URI}/myTutor/${user.id}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URI}/myTutor/${user.id}`, {
+    headers: {
+      authorization: `Bearer ${token} `,
+    },
+  });
   const data = await res.json();
 
   const tutors = Array.isArray(data) ? data : [data];

@@ -8,10 +8,16 @@ const MySessionsPage = async () => {
     headers: await headers(),
   });
   const user = session?.user;
-  console.log(user);
-
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_URI}/booking?email=${user.email}`,
+    {
+      headers: {
+        authorization: `Bearer ${token} `,
+      },
+    },
   );
   const sessions = await res.json();
   // console.log(sessions);
