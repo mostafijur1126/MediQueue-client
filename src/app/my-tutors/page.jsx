@@ -1,3 +1,4 @@
+import DeleteMytutorModal from "@/components/DeleteMytutorModal";
 import EditTutorModal from "@/components/EditTutorModal";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -85,9 +86,7 @@ const MyTutorsPage = async () => {
                   <td className="px-5 py-4 whitespace-nowrap">
                     <div className="flex items-center gap-2">
                       <EditTutorModal tutor={tutor}></EditTutorModal>
-                      <button className="text-xs px-3 py-1.5 rounded-md font-medium bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50 transition-colors">
-                        Delete
-                      </button>
+                      <DeleteMytutorModal tutor={tutor}></DeleteMytutorModal>
                     </div>
                   </td>
                 </tr>
@@ -150,12 +149,8 @@ const MyTutorsPage = async () => {
               </div>
 
               <div className="flex gap-2 mt-4 pt-3 border-t border-gray-100 dark:border-gray-800">
-                <button className="flex-1 text-sm py-2 rounded-lg font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50 transition-colors">
-                  Edit
-                </button>
-                <button className="flex-1 text-sm py-2 rounded-lg font-medium bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50 transition-colors">
-                  Delete
-                </button>
+                <EditTutorModal tutor={tutor}></EditTutorModal>
+                <DeleteMytutorModal tutor={tutor}></DeleteMytutorModal>
               </div>
             </div>
           ))}
