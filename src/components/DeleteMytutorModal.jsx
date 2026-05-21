@@ -23,7 +23,6 @@ const DeleteMytutorModal = ({ tutor }) => {
     } else {
       toast.error("Delete failed.");
     }
-    console.log(data);
   };
   return (
     <AlertDialog>
@@ -40,7 +39,7 @@ const DeleteMytutorModal = ({ tutor }) => {
             <AlertDialog.Header>
               <AlertDialog.Icon status="danger" />
               <AlertDialog.Heading>
-                Delete project permanently?
+                Delete Tutor permanently?
               </AlertDialog.Heading>
             </AlertDialog.Header>
             <AlertDialog.Body>
@@ -54,7 +53,7 @@ const DeleteMytutorModal = ({ tutor }) => {
                 Cancel
               </Button>
               <Button onClick={handelDelete} slot="close" variant="danger">
-                Delete Project
+                Delete
               </Button>
             </AlertDialog.Footer>
           </AlertDialog.Dialog>
