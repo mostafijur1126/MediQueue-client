@@ -37,10 +37,10 @@ const Avatar = ({ name, image }) => {
       alt={name}
       width={20}
       height={20}
-      className="w-9 h-9 rounded-full object-cover ring-2 ring-blue-500/30"
+      className="w-9 h-9 rounded-full object-cover ring-2 ring-purple-500/30"
     />
   ) : (
-    <span className="flex items-center justify-center w-9 h-9 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200 text-sm font-semibold ring-2 ring-blue-500/30">
+    <span className="flex items-center justify-center w-9 h-9 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-200 text-sm font-semibold ring-2 ring-purple-500/30">
       {initials}
     </span>
   );
@@ -86,7 +86,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link
             href="/"
-            className="flex-shrink-0 text-xl font-bold tracking-tight text-blue-600 dark:text-blue-400 hover:opacity-80 transition-opacity"
+            className="flex-shrink-0 text-xl font-bold tracking-tight text-purple-600 dark:text-purple-400 hover:opacity-80 transition-opacity"
           >
             Mediqueue
           </Link>
@@ -99,7 +99,7 @@ const Navbar = () => {
                 href={href}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150 ${
                   isActive(href)
-                    ? "bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400"
+                    ? "bg-purple-50 text-purple-600 dark:bg-purple-950/50 dark:text-purple-400"
                     : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100"
                 }`}
               >
@@ -130,14 +130,14 @@ const Navbar = () => {
                 <>
                   <Link
                     href="/login"
-                    className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
                   >
                     <FaSignInAlt className="text-sm" />
                     Login
                   </Link>
                   <Link
                     href="/register"
-                    className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm"
+                    className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors shadow-sm"
                   >
                     <FaRegistered className="text-sm" />
                     Register
@@ -147,7 +147,7 @@ const Navbar = () => {
                 <div className="relative">
                   <button
                     onClick={() => setIsProfileDropdownOpen((v) => !v)}
-                    className="flex items-center gap-2 p-1 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                    className="flex items-center gap-2 p-1 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
                   >
                     <Avatar name={user?.name} image={user?.image} />
                     <span className="hidden lg:block text-sm font-medium text-gray-700 dark:text-gray-300 pr-1">
@@ -223,7 +223,7 @@ const Navbar = () => {
               onClick={() => setIsMobileMenuOpen(false)}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                 isActive(href)
-                  ? "bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400"
+                  ? "bg-purple-50 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400"
                   : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
               }`}
             >
@@ -246,7 +246,7 @@ const Navbar = () => {
                 <Link
                   href="/register"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+                  className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold bg-purple-600 hover:bg-purple-700 text-white transition-colors"
                 >
                   <FaRegRegistered />
                   Register
