@@ -12,9 +12,15 @@ import {
   TextField,
 } from "@heroui/react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -22,19 +28,21 @@ const LoginPage = () => {
     const { data, error } = await authClient.signIn.email({
       email: userData.email, // required
       password: userData.password,
-      callbackURL: "/",
+      callbackURL: callbackUrl,
     });
     if (data) {
-      alert("Login successfully");
+      toast.success("Login successfully");
+      router.push(callbackUrl);
     }
     if (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
     // console.log(data, error);
   };
   const handelGoogleSingIn = async () => {
     await authClient.signIn.social({
       provider: "google",
+      callbackURL: callbackUrl,
     });
   };
   return (

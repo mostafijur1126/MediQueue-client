@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "react-toastify";
 //Minu1126@#
 
 const LoginPage = () => {
@@ -30,11 +31,11 @@ const LoginPage = () => {
     });
     console.log(data, error);
     if (data) {
-      alert("registation successfully");
-      redirect("/");
+      toast.success("registation successfully");
+      redirect("/login");
     }
     if (error) {
-      alert("error.message");
+      toast.error("error.message");
     }
   };
   const handelGoogleSingIn = async () => {

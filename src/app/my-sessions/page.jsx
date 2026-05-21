@@ -24,7 +24,7 @@ const MySessionsPage = async () => {
     },
   );
   const sessions = await res.json();
-  // console.log(sessions);
+  console.log(sessions);
   return (
     <div>
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
@@ -68,7 +68,7 @@ const MySessionsPage = async () => {
                     className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150"
                   >
                     <td className="px-5 py-4 font-medium text-gray-900 dark:text-gray-100 whitespace-nowrap">
-                      {session.user.studentName}
+                      {session.user.name}
                     </td>
                     <td className="px-5 py-4 text-gray-700 dark:text-gray-300 whitespace-nowrap">
                       {session.user.phone}

@@ -78,7 +78,7 @@ const BookSessionModal = ({ tutor }) => {
 
                   <TextField className="w-full" name="phone" type="tel">
                     <Label>Phone</Label>
-                    <Input placeholder="Enter your phone number" />
+                    <Input required placeholder="Enter your phone number" />
                   </TextField>
 
                   <TextField className="w-full" name="tutorId" type="text">
