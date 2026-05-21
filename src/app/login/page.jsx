@@ -1,4 +1,5 @@
 "use client";
+
 import { authClient } from "@/lib/auth-client";
 import { Check } from "@gravity-ui/icons";
 import {
@@ -21,33 +22,45 @@ const LoginPage = () => {
   const router = useRouter();
 
   const callbackUrl = searchParams.get("callbackUrl") || "/";
+
   const onSubmit = async (e) => {
     e.preventDefault();
+
     const formData = new FormData(e.currentTarget);
     const userData = Object.fromEntries(formData.entries());
+
     const { data, error } = await authClient.signIn.email({
-      email: userData.email, // required
+      email: userData.email,
       password: userData.password,
       callbackURL: callbackUrl,
     });
+
     if (data) {
       toast.success("Login successfully");
       router.push(callbackUrl);
     }
+
     if (error) {
       toast.error(error.message);
     }
   };
+
   const handelGoogleSingIn = async () => {
     await authClient.signIn.social({
       provider: "google",
       callbackURL: callbackUrl,
     });
   };
+
   return (
-    <div className="max-w-7xl mx-auto my-20">
-      <Card>
-        <Form className="flex w-96 flex-col gap-4" onSubmit={onSubmit}>
+    <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-gray-50">
+      <Card className="w-full max-w-md p-6 sm:p-8 shadow-lg rounded-2xl">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6">
+          Login
+        </h1>
+
+        <Form className="flex w-full flex-col gap-4" onSubmit={onSubmit}>
+          {/* Email */}
           <TextField
             isRequired
             name="email"
@@ -63,6 +76,8 @@ const LoginPage = () => {
             <Input placeholder="john@example.com" />
             <FieldError />
           </TextField>
+
+          {/* Password */}
           <TextField
             isRequired
             minLength={8}
@@ -82,30 +97,47 @@ const LoginPage = () => {
             }}
           >
             <Label>Password</Label>
+
             <Input placeholder="Enter your password" />
-            <Description>
+
+            <Description className="text-xs sm:text-sm">
               Must be at least 8 characters with 1 uppercase and 1 number
             </Description>
+
             <FieldError />
           </TextField>
-          <div className="">
-            <Button type="submit" className="w-full">
-              <Check />
-              Login
-            </Button>
-          </div>
+
+          {/* Login Button */}
+          <Button type="submit" className="w-full">
+            <Check />
+            Login
+          </Button>
         </Form>
-        <p className="text-center">or</p>
+
+        {/* Divider */}
+        <div className="flex items-center gap-3 my-5">
+          <div className="h-px flex-1 bg-gray-300"></div>
+          <p className="text-sm text-gray-500">OR</p>
+          <div className="h-px flex-1 bg-gray-300"></div>
+        </div>
+
+        {/* Google Login */}
         <Button
           onClick={handelGoogleSingIn}
           className="w-full"
           variant="outline"
         >
-          <FcGoogle />
+          <FcGoogle className="text-xl" />
+          Continue with Google
         </Button>
-        <Link href="register" className="cursor-pointer text-blue-500">
-          want to create an accout?
-        </Link>
+
+        {/* Register Link */}
+        <p className="text-center text-sm mt-5">
+          Don&apos;t have an account?{" "}
+          <Link href="/register" className="text-blue-500 hover:underline">
+            Register
+          </Link>
+        </p>
       </Card>
     </div>
   );

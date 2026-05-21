@@ -1,4 +1,5 @@
 "use client";
+
 import { authClient } from "@/lib/auth-client";
 import { Check } from "@gravity-ui/icons";
 import {
@@ -12,41 +13,51 @@ import {
   TextField,
 } from "@heroui/react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
-//Minu1126@#
 
-const LoginPage = () => {
+const RegisterPage = () => {
+  const router = useRouter();
+
   const onSubmit = async (e) => {
     e.preventDefault();
+
     const formData = new FormData(e.currentTarget);
     const userData = Object.fromEntries(formData.entries());
+
     const { data, error } = await authClient.signUp.email({
-      name: userData.name, // required
-      email: userData.email, // required
-      password: userData.password, // required
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
       image: userData.image,
-      // callbackURL: "https://example.com/callback",
     });
-    // console.log(data, "error", error);
+
     if (data) {
-      toast.success("registation successfully");
-      redirect("/login");
+      toast.success("Registration successfully");
+      router.push("/login");
     } else {
       toast.error(error.message);
     }
   };
+
   const handelGoogleSingIn = async () => {
     await authClient.signIn.social({
       provider: "google",
     });
   };
+
   return (
-    <div className="max-w-7xl mx-auto my-20">
-      <Card>
-        <h1 className="text-2xl">Registation</h1>
-        <Form className="flex w-96 flex-col gap-4" onSubmit={onSubmit}>
+    <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-gray-50">
+      <Card className="w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-lg">
+        {/* Title */}
+        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6">
+          Registration
+        </h1>
+
+        {/* Form */}
+        <Form className="flex w-full flex-col gap-4" onSubmit={onSubmit}>
+          {/* Name */}
           <TextField
             isRequired
             name="name"
@@ -61,11 +72,15 @@ const LoginPage = () => {
             <Input placeholder="John Doe" />
             <FieldError />
           </TextField>
+
+          {/* Photo URL */}
           <TextField isRequired name="image">
             <Label>Photo URL</Label>
             <Input placeholder="Enter your photo url" />
             <FieldError />
           </TextField>
+
+          {/* Email */}
           <TextField
             isRequired
             name="email"
@@ -81,6 +96,8 @@ const LoginPage = () => {
             <Input placeholder="john@example.com" />
             <FieldError />
           </TextField>
+
+          {/* Password */}
           <TextField
             isRequired
             minLength={8}
@@ -100,33 +117,50 @@ const LoginPage = () => {
             }}
           >
             <Label>Password</Label>
+
             <Input placeholder="Enter your password" />
-            <Description>
+
+            <Description className="text-xs sm:text-sm">
               Must be at least 8 characters with 1 uppercase and 1 number
             </Description>
+
             <FieldError />
           </TextField>
-          <div className="w-full">
-            <Button type="submit" className="w-full">
-              <Check />
-              Register
-            </Button>
-          </div>
+
+          {/* Register Button */}
+          <Button type="submit" className="w-full">
+            <Check />
+            Register
+          </Button>
         </Form>
-        <p className="text-center">or</p>
+
+        {/* Divider */}
+        <div className="flex items-center gap-3 my-5">
+          <div className="h-px flex-1 bg-gray-300"></div>
+          <p className="text-sm text-gray-500">OR</p>
+          <div className="h-px flex-1 bg-gray-300"></div>
+        </div>
+
+        {/* Google Button */}
         <Button
           onClick={handelGoogleSingIn}
           className="w-full"
           variant="outline"
         >
-          <FcGoogle />
+          <FcGoogle className="text-xl" />
+          Continue with Google
         </Button>
-        <Link href="login" className="cursor-pointer text-blue-500">
-          have your accout?
-        </Link>
+
+        {/* Login Link */}
+        <p className="text-center text-sm mt-5">
+          Already have an account?{" "}
+          <Link href="/login" className="text-blue-500 hover:underline">
+            Login
+          </Link>
+        </p>
       </Card>
     </div>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
