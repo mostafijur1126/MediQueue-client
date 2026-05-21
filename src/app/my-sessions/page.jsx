@@ -2,6 +2,10 @@ import RemoveButton from "@/components/RemoveButton";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import React from "react";
+export const metadata = {
+  title: "Mediqueue | My Sessions",
+  description: "Tutor Booking platform",
+};
 
 const MySessionsPage = async () => {
   const session = await auth.api.getSession({

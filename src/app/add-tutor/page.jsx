@@ -31,6 +31,10 @@ const SUBJECTS = [
   "Geography",
 ];
 const MODES = ["Online", "Offline", "Both"];
+// export const metadata = {
+//   title: "Mediqueue | Add Tutors",
+//   description: "Tutor Booking platform",
+// };
 
 function SelectField({
   label,

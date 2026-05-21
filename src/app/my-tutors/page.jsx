@@ -3,6 +3,10 @@ import EditTutorModal from "@/components/EditTutorModal";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import React from "react";
+export const metadata = {
+  title: "Mediqueue | My Tutors",
+  description: "Tutor Booking platform",
+};
 
 const MyTutorsPage = async () => {
   const session = await auth.api.getSession({

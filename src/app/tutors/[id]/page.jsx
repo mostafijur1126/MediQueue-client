@@ -5,6 +5,25 @@ import { headers } from "next/headers";
 import Image from "next/image";
 import React from "react";
 
+export const generateMetadata = async ({ params }) => {
+  const { id } = await params;
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URI}/tutors/${id}`, {
+    headers: {
+      authorization: `Bearer ${token} `,
+    },
+  });
+  const tutor = await res.json();
+  // console.log(tutor);
+
+  return {
+    title: tutor.tutorName,
+    description: tutor.subject,
+  };
+};
+
 const TutorDetailsPage = async ({ params }) => {
   const { id } = await params;
   const { token } = await auth.api.getToken({
