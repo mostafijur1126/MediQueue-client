@@ -140,9 +140,10 @@ const MySessionsPage = async () => {
                 </div>
 
                 <div className="flex gap-2 mt-4 pt-3 border-t border-gray-100 dark:border-gray-800">
-                  <button className="flex-1 text-sm py-2 rounded-lg font-medium bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50 transition-colors">
-                    Remove
-                  </button>
+                  <RemoveButton
+                    bookingId={session._id}
+                    status={session.status}
+                  ></RemoveButton>
                 </div>
               </div>
             ))}
