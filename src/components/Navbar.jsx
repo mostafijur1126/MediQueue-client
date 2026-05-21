@@ -16,7 +16,6 @@ import {
   FaSignInAlt,
   FaSignOutAlt,
   FaTimes,
-  FaUserCircle,
   FaUserPlus,
   FaUsers,
 } from "react-icons/fa";
@@ -170,14 +169,7 @@ const Navbar = () => {
                             {user?.email}
                           </p>
                         </div>
-                        <Link
-                          href="/profile"
-                          onClick={() => setIsProfileDropdownOpen(false)}
-                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-                        >
-                          <FaUserCircle className="text-base text-gray-400" />
-                          My Profile
-                        </Link>
+
                         <button
                           onClick={() => {
                             setIsProfileDropdownOpen(false);
@@ -265,14 +257,7 @@ const Navbar = () => {
                     </p>
                   </div>
                 </div>
-                <Link
-                  href="/profile"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-                >
-                  <FaUserCircle className="text-base" />
-                  My Profile
-                </Link>
+
                 <button
                   onClick={() => {
                     handleLogout();
