@@ -29,13 +29,12 @@ const LoginPage = () => {
       image: userData.image,
       // callbackURL: "https://example.com/callback",
     });
-    console.log(data, error);
+    // console.log(data, "error", error);
     if (data) {
       toast.success("registation successfully");
       redirect("/login");
-    }
-    if (error) {
-      toast.error("error.message");
+    } else {
+      toast.error(error.message);
     }
   };
   const handelGoogleSingIn = async () => {

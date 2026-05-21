@@ -37,7 +37,6 @@ const LoginPage = () => {
     if (error) {
       toast.error(error.message);
     }
-    // console.log(data, error);
   };
   const handelGoogleSingIn = async () => {
     await authClient.signIn.social({
