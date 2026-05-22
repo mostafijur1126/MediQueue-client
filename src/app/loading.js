@@ -1,10 +1,10 @@
-import { Spinner } from "@heroui/react";
+import BookOpeningLottie from "@/components/BookOpeningLottie";
 
 export default function Loading() {
   // Or a custom loading skeleton component
   return (
     <div className="h-screen flex justify-center items-center">
-      <Spinner className="w-20 h-20 text-purple-600" />
+      <BookOpeningLottie></BookOpeningLottie>
     </div>
   );
 }
