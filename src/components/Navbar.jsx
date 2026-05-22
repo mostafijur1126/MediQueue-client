@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaBars,
   FaCalendarAlt,
@@ -53,6 +53,11 @@ const Navbar = () => {
   const pathname = usePathname();
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const navLinksPublic = [
     { name: "Home", href: "/", icon: FaHome },
@@ -111,17 +116,19 @@ const Navbar = () => {
           {/* Right Side */}
           <div className="flex items-center gap-2">
             {/* Theme Toggle */}
-            <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              aria-label="Toggle theme"
-              className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-            >
-              {theme === "dark" ? (
-                <IoSunnyOutline className="text-lg" />
-              ) : (
-                <FaMoon className="text-base" />
-              )}
-            </button>
+            {mounted && (
+              <button
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                aria-label="Toggle theme"
+                className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+              >
+                {theme === "dark" ? (
+                  <IoSunnyOutline className="text-lg" />
+                ) : (
+                  <FaMoon className="text-base" />
+                )}
+              </button>
+            )}
 
             {/* Desktop Auth */}
             <div className="hidden md:flex items-center gap-2">
