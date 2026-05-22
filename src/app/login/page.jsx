@@ -125,6 +125,9 @@ const LoginPage = () => {
                 </Button>
               </InputGroup.Suffix>
             </InputGroup>
+            <Link href={"/forgatePassword"}>
+              <p className="text-sm text-purple-500">Forgate password ?</p>
+            </Link>
           </TextField>
 
           {/* Login Button */}
