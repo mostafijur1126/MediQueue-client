@@ -59,7 +59,7 @@ const GrowthSection = () => {
             </p>
             <a
               href="#"
-              className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:gap-2 transition-all duration-200"
+              className="inline-flex items-center gap-1 text-purple-600 dark:text-purple-400 font-semibold text-sm hover:gap-2 transition-all duration-200"
             >
               Read More
               <svg
@@ -87,7 +87,7 @@ const GrowthSection = () => {
               className="group relative bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl px-8 py-10 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow duration-300"
             >
               {/* Icon circle */}
-              <div className="w-20 h-20 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-500 dark:text-blue-400 mb-6 group-hover:scale-105 transition-transform duration-300">
+              <div className="w-20 h-20 rounded-full bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center text-purple-500 dark:text-purple-400 mb-6 group-hover:scale-105 transition-transform duration-300">
                 {icon}
               </div>
 

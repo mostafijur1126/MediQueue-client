@@ -1,7 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { Check } from "@gravity-ui/icons";
+import { Check, EyeSlash } from "@gravity-ui/icons";
 import {
   Button,
   Card,
@@ -9,15 +9,19 @@ import {
   FieldError,
   Form,
   Input,
+  InputGroup,
   Label,
   TextField,
 } from "@heroui/react";
+import { Eye } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 
 const RegisterPage = () => {
+  const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
 
   const onSubmit = async (e) => {
@@ -48,7 +52,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-slate-50 dark:bg-gray-950">
       <Card className="w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-lg">
         {/* Title */}
         <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6">
@@ -69,14 +73,20 @@ const RegisterPage = () => {
             }}
           >
             <Label>Name</Label>
-            <Input placeholder="John Doe" />
+            <Input
+              placeholder="John Doe"
+              className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+            />
             <FieldError />
           </TextField>
 
           {/* Photo URL */}
           <TextField isRequired name="image">
             <Label>Photo URL</Label>
-            <Input placeholder="Enter your photo url" />
+            <Input
+              placeholder="Enter your photo url"
+              className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+            />
             <FieldError />
           </TextField>
 
@@ -93,7 +103,10 @@ const RegisterPage = () => {
             }}
           >
             <Label>Email</Label>
-            <Input placeholder="john@example.com" />
+            <Input
+              placeholder="john@example.com"
+              className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+            />
             <FieldError />
           </TextField>
 
@@ -117,14 +130,28 @@ const RegisterPage = () => {
             }}
           >
             <Label>Password</Label>
-
-            <Input placeholder="Enter your password" />
-
-            <Description className="text-xs sm:text-sm">
-              Must be at least 8 characters with 1 uppercase and 1 number
-            </Description>
-
-            <FieldError />
+            <InputGroup>
+              <InputGroup.Input
+                className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                type={isVisible ? "text" : "password"}
+                placeholder="Enter your password"
+              />
+              <InputGroup.Suffix className="pr-0">
+                <Button
+                  isIconOnly
+                  aria-label={isVisible ? "Hide password" : "Show password"}
+                  size="sm"
+                  variant="ghost"
+                  onPress={() => setIsVisible(!isVisible)}
+                >
+                  {isVisible ? (
+                    <Eye className="size-4" />
+                  ) : (
+                    <EyeSlash className="size-4" />
+                  )}
+                </Button>
+              </InputGroup.Suffix>
+            </InputGroup>
           </TextField>
 
           {/* Register Button */}

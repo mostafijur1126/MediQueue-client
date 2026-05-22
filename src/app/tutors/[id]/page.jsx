@@ -33,15 +33,13 @@ const TutorDetailsPage = async ({ params }) => {
     },
   });
   const tutor = await res.json();
-  console.log(tutor);
+  // console.log(tutor);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
-        {/* Card Container */}
         <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-800">
           <div className="flex flex-col md:flex-row gap-8 p-6 md:p-8">
-            {/* Image Section */}
             <div className="relative w-full md:w-80 h-80 md:h-auto md:min-h-[320px] rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-800 flex-shrink-0">
               <Image
                 src={tutor.photo}
@@ -52,7 +50,6 @@ const TutorDetailsPage = async ({ params }) => {
               />
             </div>
 
-            {/* Details Section */}
             <div className="flex-1 space-y-4">
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
@@ -96,7 +93,6 @@ const TutorDetailsPage = async ({ params }) => {
   );
 };
 
-// Helper component for consistent detail rows
 const DetailRow = ({ label, value, highlight = false, fullWidth = false }) => (
   <div className={fullWidth ? "sm:col-span-2" : ""}>
     <span className="text-gray-500 dark:text-gray-400 block text-xs uppercase tracking-wide">

@@ -4,7 +4,7 @@ import React from "react";
 
 const TutorsCard = ({ tutor }) => {
   return (
-    <div className="group bg-white dark:bg-gray-900 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden border border-gray-100 dark:border-gray-800">
+    <div className="group bg-white dark:bg-transparent rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden border border-gray-100 dark:border-gray-800">
       {/* Image Container */}
       <div className="relative w-full h-64 overflow-hidden bg-gray-200 dark:bg-gray-800">
         <Image

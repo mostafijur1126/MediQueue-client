@@ -62,7 +62,7 @@ export default function Footer() {
           <div className="space-y-4">
             <Link
               href="/"
-              className="text-xl font-bold text-blue-600 dark:text-blue-400 tracking-tight"
+              className="text-xl font-bold text-purple-600 dark:text-purple-400 tracking-tight"
             >
               Mediqueue
             </Link>
@@ -97,7 +97,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-150"
+                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-150"
                   >
                     {link.name}
                   </Link>
@@ -115,9 +115,12 @@ export default function Footer() {
               <li>
                 <a
                   href="mailto:support@mediqueue.com"
-                  className="flex items-center gap-2.5 text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  className="flex items-center gap-2.5 text-sm text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                 >
-                  <MdEmail size={16} className="flex-shrink-0 text-blue-500" />
+                  <MdEmail
+                    size={16}
+                    className="flex-shrink-0 text-purple-500"
+                  />
                   support@mediqueue.com
                 </a>
               </li>
@@ -151,13 +154,13 @@ export default function Footer() {
           <div className="flex items-center gap-4 text-xs text-gray-400 dark:text-gray-500">
             <Link
               href="/terms"
-              className="hover:text-blue-500 transition-colors"
+              className="hover:text-purple-500 transition-colors"
             >
               Terms
             </Link>
             <Link
               href="/privacy"
-              className="hover:text-blue-500 transition-colors"
+              className="hover:text-purple-500 transition-colors"
             >
               Privacy
             </Link>

@@ -219,10 +219,7 @@ export default function AddTutorsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
-      {/* Subtle top accent */}
-      <div className="h-1 w-full bg-gradient-to-r from-cyan-400 via-sky-500 to-cyan-600" />
-
+    <div className="min-h-screen bg-slate-50 dark:bg-gray-950 transition-colors duration-300">
       <div className="max-w-3xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
@@ -416,10 +413,6 @@ export default function AddTutorsPage() {
                   </>
                 )}
               </button>
-              <p className="text-center text-xs text-slate-400 dark:text-slate-600 mt-3">
-                All fields marked <span className="text-rose-400">*</span> are
-                required
-              </p>
             </div>
           </form>
         </div>

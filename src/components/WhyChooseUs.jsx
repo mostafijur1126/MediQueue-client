@@ -111,12 +111,12 @@ const WhyChooseUs = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-14">
-          <span className="inline-block text-xs font-semibold tracking-widest uppercase text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-4 py-1.5 rounded-full mb-4">
+          <span className="inline-block text-xs font-semibold tracking-widest uppercase text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30 px-4 py-1.5 rounded-full mb-4">
             Why TutorConnect
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white leading-tight">
             Everything you need to{" "}
-            <span className="text-blue-600 dark:text-blue-400">
+            <span className="text-purple-600 dark:text-purple-400">
               learn better
             </span>
           </h2>

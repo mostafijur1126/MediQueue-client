@@ -63,7 +63,7 @@ const Navbar = () => {
     { name: "Tutors", href: "/tutors", icon: FaChalkboardTeacher },
     { name: "Add Tutor", href: "/add-tutor", icon: FaUserPlus },
     { name: "My Tutors", href: "/my-tutors", icon: FaUsers },
-    { name: "Sessions", href: "/my-sessions", icon: FaCalendarAlt },
+    { name: "My Sessions", href: "/my-sessions", icon: FaCalendarAlt },
   ];
 
   const navLinks = user ? navLinksPrivate : navLinksPublic;
@@ -73,7 +73,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     await authClient.signOut({
       fetchOptions: {
-        onSuccess: () => router.push("/"),
+        onSuccess: () => router.push("/login"),
       },
     });
   };
